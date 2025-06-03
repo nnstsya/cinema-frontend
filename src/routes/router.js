@@ -26,7 +26,7 @@ const router = createRouter({
         },
         {
             path: '/createSession',
-            component: createSession,
+            component: movieSession,
             meta: { requiresAdmin: true }
         },
         {
@@ -50,11 +50,11 @@ const router = createRouter({
         {
             path: '/profile',
             component: userProfilePage,
-            meta: { requiresAdmin: true }
+            meta: { requiresAuth: true }
         },
         {
             path: '/createCinema',
-            component: movieSession,
+            component: createSession,
             meta: { requiresAdmin: true }
         },
         {
@@ -97,15 +97,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAdmin)) {
-      const isAdmin = localStorage.getItem('isAdmin') === 'true';
-      if (!isAdmin) {
-        next({ name: 'auth' }); 
-      } else {
-        next();
-      }
+        const isAdmin = localStorage.getItem('isAdmin') === 'true';
+        if (!isAdmin) {
+            next({ name: 'auth' });
+        } else {
+            next();
+        }
     } else {
-      next();
+        next();
     }
-  });
+});
 
 export default router;

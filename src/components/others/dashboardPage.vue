@@ -38,7 +38,7 @@
 
       <div v-if="activeSection === 'cinemas'" class="section">
         <div class="table-container">
-          <table class="modern-table">
+          <table v-if="cinemas.length" class="modern-table">
             <thead>
             <tr>
               <th v-for="(value, key) in cinemas[0]" :key="key">
@@ -54,7 +54,7 @@
               </td>
               <td>
                 <div class="action-buttons">
-                  <button class="btn-delete" @click="deleteCinema(session._id)"><i class="fas fa-trash"></i></button>
+                  <button class="btn-delete" @click="deleteCinema(cinema._id)"><font-awesome-icon icon="trash"></font-awesome-icon></button>
                 </div>
               </td>
             </tr>
@@ -65,7 +65,7 @@
 
       <div v-if="activeSection === 'movies'" class="section">
         <div class="table-container">
-          <table class="modern-table">
+          <table v-if="movies.length" class="modern-table">
             <thead>
             <tr>
               <th v-for="(value, key) in movies[0]" :key="key">
@@ -82,9 +82,9 @@
               <td>
                 <div class="action-buttons">
                   <router-link class="btn-edit" :to="{ name: 'UpdateMovie', params: { id: movie._id }}">
-                    <i class="fas fa-edit"></i>
+                    <font-awesome-icon icon="pen-to-square"></font-awesome-icon>
                   </router-link>
-                  <button class="btn-delete" @click="deleteMovie(movie._id)"><i class="fas fa-trash"></i></button>
+                  <button class="btn-delete" @click="deleteMovie(movie._id)"><font-awesome-icon icon="trash"></font-awesome-icon></button>
                 </div>
               </td>
             </tr>
@@ -95,7 +95,7 @@
 
       <div v-if="activeSection === 'sessions'" class="section">
         <div class="table-container">
-          <table class="modern-table">
+          <table v-if="sessions.length" class="modern-table">
             <thead>
             <tr>
               <th>ID</th>
@@ -122,9 +122,9 @@
               <td>
                 <div class="action-buttons">
                   <router-link class="btn-edit" :to="{ name: 'UpdateSession', params: { id: session._id }}">
-                    <i class="fas fa-edit"></i>
+                    <font-awesome-icon icon="pen-to-square"></font-awesome-icon>
                   </router-link>
-                  <button class="btn-delete" @click="deleteSession(session._id)"><i class="fas fa-trash"></i></button>
+                  <button class="btn-delete" @click="deleteSession(session._id)"><font-awesome-icon icon="trash"></font-awesome-icon></button>
                 </div>
               </td>
             </tr>
@@ -135,7 +135,7 @@
 
       <div v-if="activeSection === 'users'" class="section">
         <div class="table-container">
-          <table class="modern-table">
+          <table v-if="users.length" class="modern-table">
             <thead>
             <tr>
               <th>ID</th>
@@ -153,7 +153,7 @@
               <td>{{ user.email }}</td>
               <td>
                 <div class="action-buttons">
-                  <button class="btn-delete" @click="deleteUser(user._id)"><i class="fas fa-trash"></i></button>
+                  <button class="btn-delete" @click="deleteUser(user._id)"><font-awesome-icon icon="trash"></font-awesome-icon></button>
                 </div>
               </td>
             </tr>
@@ -170,8 +170,13 @@ import * as cinemaAPI from '@/services/cinemaAPI'
 import * as movieAPI from '@/services/movieAPI'
 import * as sessionAPI from '@/services/sessionAPI'
 import * as userAPI from '@/services/userAPI'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+library.add(faTrash);
 
 export default {
+  components: {FontAwesomeIcon},
   data() {
     return {
       activeSection: 'cinemas',
@@ -182,6 +187,12 @@ export default {
     };
   },
   methods: {
+    async fetchData() {
+      this.cinemas = await cinemaAPI.getAllCinemas();
+      this.movies = await movieAPI.getAllMovies();
+      this.sessions = await sessionAPI.getAllSessions();
+      this.users = await userAPI.getAllUsers();
+    },
     async deleteSession(id) {
       await sessionAPI.deleteSession(id);
       window.location.reload()
@@ -200,10 +211,7 @@ export default {
     }
   },
   async mounted() {
-    this.cinemas = await cinemaAPI.getAllCinemas();
-    this.movies = await movieAPI.getAllMovies();
-    this.sessions = await sessionAPI.getAllSessions();
-    this.users = await userAPI.getAllUsers();
+    await this.fetchData();
   }
 };
 </script>

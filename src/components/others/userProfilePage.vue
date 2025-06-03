@@ -87,7 +87,7 @@
               </span>
               Update Profile
             </button>
-            <router-link :to="'/profile/dashboard'" class="admin-button">
+            <router-link v-if="isAdmin()" :to="'/profile/dashboard'" class="admin-button">
               <button class="update-button">Dashboard</button>
             </router-link>
           </div>
@@ -155,6 +155,9 @@ export default {
             this.invalidPhoneReg = !phonePattern.test(this.user.phoneNumber);
             this.isChanges();
         },
+        isAdmin() {
+            return localStorage.getItem("isAdmin") === "true";
+        }
     },
     async mounted() {
         const token = localStorage.getItem("token")

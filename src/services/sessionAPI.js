@@ -12,15 +12,6 @@ export async function createSession(data) {
     }
 }
 
-export async function deleteSession() {
-    try {
-        return await axios.post(userUrl + "deleteSession").then(res => res.data);
-    } catch (error) {
-        console.error("Error finding session:", error);
-        await router.push("/error");
-    }
-}
-
 export async function getSession(id) {
     try {
         return await axios.get(userUrl + "getSession/" + id).then(res => res.data.data.session);
@@ -48,7 +39,7 @@ export async function updateSession(session, id){
     }
 }
 
-export async function deleterSession(id) {
+export async function deleteSession(id) {
     try {
         return await axios.delete(userUrl + "deleteSession", id).then(res => res.data);
     } catch (error) {

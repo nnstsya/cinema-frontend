@@ -11,14 +11,14 @@
         <button class="close-btn" @click="toggleSidebar"><i class='bx bx-x'></i></button>
         <ul>
           <li><a href="/">Home page</a></li>
-          <li><a href="/authentication">Authentication</a></li>
+          <li v-if="isNotAuthorized()"><a href="/authentication">Authentication</a></li>
           <li><a href="/posters">Cinema Poster</a></li>
-          <li v-if="userAccess()"><a href="/profile">My Profile</a></li>
+          <li v-if="isAuthorized()"><a href="/profile">My Profile</a></li>
           <li v-if="userAccess()"><a href="/createSession">Create Session</a></li>
           <li v-if="userAccess()"><a href="/createMovie">Create Movie</a></li>
           <li v-if="userAccess()"><a href="/createCinema">Create Cinema</a></li>
           <li v-if="userAccess()"><a href="/profile/dashboard">Dashboard</a></li>
-          <li v-if="userAccess()"><a @click="logout()">Logout</a></li>
+          <li v-if="isAuthorized()"><a @click="logout()">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -38,12 +38,18 @@ export default {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
     userAccess() {
-      return localStorage.getItem("isAdmin")
+      return localStorage.getItem("isAdmin") === 'true';
     },
     logout() {
       localStorage.clear();
       window.location.reload();
-    }
+    },
+    isNotAuthorized() {
+      return localStorage.getItem("isAdmin") === null;
+    },
+    isAuthorized() {
+      return localStorage.getItem("isAdmin") !== null;
+    },
   },
 };
 </script>

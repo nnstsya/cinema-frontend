@@ -1,9 +1,7 @@
 <template>
   <div class="auth-wrapper">
     <div class="auth-container" :class="{'fluid-expanded': isFluidExpanded}">
-      <div class="fluid-container">
-        <img src="@/assets/fluid-1.png" class="fluid-1" alt="fluid">
-      </div>
+      <div class="fluid-container"></div>
 
         <div class="form-section login" v-show="showLogin">
           <div class="form-title">
@@ -177,11 +175,21 @@ export default {
                 if (this.response != null) {
                     localStorage.token = this.response.token;
                     this.$router.push('/');
-                    localStorage.setItem('isAdmin', 'true');
+
+                    if(this.user.email === 'admin@user.com') {
+                      localStorage.setItem('isAdmin', 'true');
+                    }  else {
+                      localStorage.setItem('isAdmin', 'false');
+                    }
                 } else if (this.responseRecPass != null){
                     localStorage.token = this.responseRecPass.data.token;
                     this.$router.push('/');
-                    localStorage.setItem('isAdmin', 'true');
+
+                    if(this.user.email === 'admin@user.com') {
+                      localStorage.setItem('isAdmin', 'true');
+                    }  else {
+                      localStorage.setItem('isAdmin', 'false');
+                    }
                 } else {
                     this.showLoginError();
                 }

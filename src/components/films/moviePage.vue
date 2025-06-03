@@ -127,7 +127,7 @@ export default {
       }
     },
     isAdmin() {
-      return localStorage.getItem("isAdmin");
+      return localStorage.getItem("isAdmin") === 'true';
     },
     formatDate(dateString) {
       const options = { day: 'numeric', month: 'short', year: 'numeric' };

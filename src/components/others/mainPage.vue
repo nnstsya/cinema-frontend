@@ -20,8 +20,8 @@
       <div class="posters-container">
         <router-link
           v-for="movie in randomMovies"
-          :key="movie.id"
-          :to="{ name: 'MovieDetails', params: {id: movie.id}}"
+          :key="movie._id"
+          :to="{ name: 'MovieDetails', params: {id: movie._id}}"
           class="poster-link"
         >
           <img :src="movie.photoUrl" :alt="movie.title" class="poster-image">

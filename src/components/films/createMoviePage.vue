@@ -46,7 +46,7 @@
                   class="form-input"
                   required
               >
-              <p v-if="invalidYear" class="form-error">Year must be between 2001 and 2024</p>
+              <p v-if="invalidYear" class="form-error">Year must be between 2001 and 2025</p>
             </div>
 
             <div class="form-group">
@@ -191,70 +191,70 @@
 import * as movieAPI from '@/services/movieAPI';
 
 export default {
-    data() {
-        return {
-            movie: {
-                title: '',
-                year: 0,
-                genres: [],
-                language: '',
-                trailerLink: '',
-                actors: [],
-                director: '',
-                duration: 0,
-                rating: 0,
-                description: '',
-                photoUrl: '',
-            },
-            genreOption: ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Horror", "Mystery", "Thriller"],
-            previewUrl: null,
-            invalidYear: false,
-            invalidGenres: false,
-            invalidActors: false,
-            invalidDuration: false,
-            invalidRating: false,
-        };
+  data() {
+    return {
+      movie: {
+        title: '',
+        year: 0,
+        genres: [],
+        language: '',
+        trailerLink: '',
+        actors: [],
+        director: '',
+        duration: 0,
+        rating: 0,
+        description: '',
+        photoUrl: '',
+      },
+      genreOption: ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Horror", "Mystery", "Thriller"],
+      previewUrl: null,
+      invalidYear: false,
+      invalidGenres: false,
+      invalidActors: false,
+      invalidDuration: false,
+      invalidRating: false,
+    };
+  },
+  methods: {
+    addGenre() {
+      this.movie.genres.push("");
     },
-    methods: {
-        addGenre() {
-            this.movie.genres.push("");
-        },
-        removeGenre(index) {
-            this.movie.genres.splice(index, 1);
-        },
-        addActor() {
-            this.movie.actors.push("");
-        },
-        removeActor(index) {
-            this.movie.actors.splice(index, 1);
-        },
-        validateYear() {
-            this.invalidYear = this.movie.year <= 2000 || this.movie.year >= 2025;
-            if(this.movie.year <= 2000) this.movie.year = 2001;
-            if(this.movie.year >= 2025) this.movie.year = 2024;
-        },
-        validateGenres() {
-            this.invalidGenres = this.movie.genres.length === 0 || this.movie.genres.some(genre => !genre.trim());
-        },
-        validateActors() {
-            this.invalidActors = this.movie.actors.length === 0 || this.movie.actors.some(actor => !actor.trim());
-        },
-        validateDuration() {
-            this.invalidDuration = this.movie.duration <= 0;
-            if(this.movie.duration <= 0) this.movie.duration = 1;
-        },
-        validateRating() {
-            this.invalidRating = this.movie.rating < 0 || this.movie.rating > 10;
-        },
-        isAnyFieldEmpty() {
-            return !this.movie.title || !this.movie.language || !this.movie.trailerLink || !this.movie.director ||
-            !this.movie.description || this.movie.genres.length === 0 || this.movie.actors.length === 0 || !this.movie.photoUrl;
-        },
-        async createMovie() {
-            await movieAPI.createMovie(this.movie);
-            this.$router.push("/");
-        },
+    removeGenre(index) {
+      this.movie.genres.splice(index, 1);
     },
+    addActor() {
+      this.movie.actors.push("");
+    },
+    removeActor(index) {
+      this.movie.actors.splice(index, 1);
+    },
+    validateYear() {
+      this.invalidYear = this.movie.year <= 2000 || this.movie.year >= 2025;
+      if(this.movie.year <= 2000) this.movie.year = 2001;
+      if(this.movie.year >= 2025) this.movie.year = 2025;
+    },
+    validateGenres() {
+      this.invalidGenres = this.movie.genres.length === 0 || this.movie.genres.some(genre => !genre.trim());
+    },
+    validateActors() {
+      this.invalidActors = this.movie.actors.length === 0 || this.movie.actors.some(actor => !actor.trim());
+    },
+    validateDuration() {
+      this.invalidDuration = this.movie.duration <= 0;
+      if(this.movie.duration <= 0) this.movie.duration = 1;
+    },
+    validateRating() {
+      this.invalidRating = this.movie.rating < 0 || this.movie.rating > 10;
+    },
+    isAnyFieldEmpty() {
+      return !this.movie.title || !this.movie.language || !this.movie.trailerLink || !this.movie.director ||
+          !this.movie.description || this.movie.genres.length === 0 || this.movie.actors.length === 0 || !this.movie.photoUrl;
+    },
+    async createMovie() {
+      await movieAPI.createMovie(this.movie);
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 

@@ -75,7 +75,7 @@ export default {
       }
     },
     isAdmin() {
-      return localStorage.getItem('isAdmin');
+      return localStorage.getItem('isAdmin') === true;
     },
   },
   mounted() {
