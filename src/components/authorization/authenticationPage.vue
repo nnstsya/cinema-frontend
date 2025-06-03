@@ -176,7 +176,7 @@ export default {
                     localStorage.token = this.response.token;
                     this.$router.push('/');
 
-                    if(this.user.email === 'admin@user.com') {
+                    if(this.response.role === 'ADMIN') {
                       localStorage.setItem('isAdmin', 'true');
                     }  else {
                       localStorage.setItem('isAdmin', 'false');
@@ -185,7 +185,7 @@ export default {
                     localStorage.token = this.responseRecPass.data.token;
                     this.$router.push('/');
 
-                    if(this.user.email === 'admin@user.com') {
+                    if(this.responseRecPass.data.role === 'ADMIN') {
                       localStorage.setItem('isAdmin', 'true');
                     }  else {
                       localStorage.setItem('isAdmin', 'false');
